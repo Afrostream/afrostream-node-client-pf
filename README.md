@@ -12,7 +12,7 @@ npm install afrostream-node-client-pf
 
 ```
 const { PFClient } = require('afrostream-node-client-pf');
-const pf = new PF({
+const pf = new PFClient({
   baseUrl: ...
 });
 

@@ -4,14 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "./node_modules/.bin/eslint .",
+    "test": "node_modules/.bin/mocha -b test/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "Q": "0.0.1",
-    "afrostream-node-request": "git+https://afrostream-tech:39378b0626f1b2d4c733eeb5c5be73908b3c8c53@github.com/Afrostream/afrostream-node-request.git#v2.3.2",
     "afrostream-node-config": "git+https://afrostream-tech:39378b0626f1b2d4c733eeb5c5be73908b3c8c53@github.com/Afrostream/afrostream-node-config.git#v3.1.1",
-    "better-assert": "^1.0.2"
+    "afrostream-node-request": "git+https://afrostream-tech:39378b0626f1b2d4c733eeb5c5be73908b3c8c53@github.com/Afrostream/afrostream-node-request.git#v2.3.2",
+    "better-assert": "^1.0.2",
+    "q": "^1.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.11.1",
+    "mocha": "^3.2.0"
   }
 }

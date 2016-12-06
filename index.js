@@ -1,5 +1,3 @@
-'use strict';
-
 const Q = require('q');
 const assert = require('better-assert');
 
@@ -22,8 +20,8 @@ class PFClient {
         increment: () => { /* noop */ }
       }
     };
-    this.pfMd5Hash = null;
-    this.pfBroadcasterName = null;
+    this.pfMd5Hash = options.pfMd5Hash || null;
+    this.pfBroadcasterName = options.pfBroadcasterName || null;
     this.pfContent = null;
     this.pfProfiles = null;
     this.randomContentProfile = null;

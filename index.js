@@ -101,6 +101,8 @@ class PFClient {
   }
 
   getContent() {
+    assert(this.pfMd5Hash);
+
     var that = this;
 
     if (this.pfContent) {
@@ -128,6 +130,33 @@ class PFClient {
       // returning first content.
       that.pfContent = pfContents[0];
       return that.pfContent;
+    });
+  }
+
+  getContentsStreams() {
+    assert(this.pfContent);
+
+    var that = this;
+
+    if (this.pfContentsStreams) {
+      return Q(this.pfContentsStreams);
+    }
+    return this.request({
+      uri: `/api/contents/${this.pfContent.contentId}/contentsStreams`,
+    }).then(pfContentsStreams => {
+      // postprocessing, this api return an array of result
+      if (!pfContentsStreams) {
+        throw new Error('[PF]: no contents-streams associated to hash ' + this.pfContent.contentId);
+      }
+      if (!Array.isArray(pfContentsStreams)) {
+        throw new Error('[PF]: malformed content result');
+      }
+      if (pfContentsStreams.length === 0) {
+        throw new Error('[PF]: no contents-streams found');
+      }
+      // returning first content.
+      that.pfContentsStreams = pfContentsStreams;
+      return that.pfContentsStreams;
     });
   }
 

@@ -146,7 +146,7 @@ class PFClient {
     }).then(pfContentsStreams => {
       // postprocessing, this api return an array of result
       if (!pfContentsStreams) {
-        throw new Error('[PF]: no contents-streams associated to hash ' + this.pfContent.contentId);
+        throw new Error('[PF]: no contents-streams associated to hash ' + that.pfContent.contentId);
       }
       if (!Array.isArray(pfContentsStreams)) {
         throw new Error('[PF]: malformed content result');
@@ -324,6 +324,35 @@ class PFClient {
         throw new Error('[PF]: malformed content result : ', JSON.stringify(pfContents));
       }
       return pfContents;
+    });
+  }
+
+  getTSAsset() {
+    assert(this.pfContent);
+
+    var that = this;
+
+    return this.request({
+      uri: `/api/contents/${this.pfContent.contentId}/assets`,
+      qs: {
+        profileName: this.pfBroadcasterName,
+        presetsType: 'ffmpeg'
+      }
+    }).then(assets => {
+      // postprocessing, this api return an array of result
+      if (!Array.isArray(assets)) {
+        throw new Error('[PF]: TSFile search: malformed assets for ' + that.pfContent.contentId);
+      }
+      if (assets.length === 0) {
+        throw new Error('[PF]: TSFile search: no assets');
+      }
+
+      const asset = assets.pop();
+
+      if (!asset.filename || !asset.filename.match(/.*\.ts$/)) {
+        throw new Error(`[PF]: TSFile search: malformed filename =${asset.filename}`);
+      }
+      return asset;
     });
   }
 }

@@ -347,6 +347,18 @@ class PFClient {
         throw new Error('[PF]: TSFile search: no assets');
       }
 
+      /*
+       * tempfix: regression dans l'api PF, qui ne filtre plus correctement suivant le broadcasterName & presetsType...
+       *  on devrait fixer côté PF, mais pour l'instant on hack côté client-pf
+       */
+      assets = assets.filter(function (asset) {
+        return asset.filename && asset.filename.match(/^.*\.ts$/);
+      });
+
+      if (assets.length === 0) {
+        throw new Error('[PF]: TSFile search: no assets (2)');
+      }
+
       const asset = assets.pop();
 
       if (!asset.filename || !asset.filename.match(/.*\.ts$/)) {
